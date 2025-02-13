@@ -9,26 +9,35 @@ generator client {
 
 model Doador {
   id    Int    @id @default(autoincrement())
-  nome  String?
-  email String? @unique
+  nome  String
+  email String @unique
+  medicamento Medicamento[]
 }
 
 model Animal {
   id          Int          @id @default(autoincrement())
-  nome        String?
-  especie     String?
-  raca String?
-  genero String?
-  idade_estimada Int?
-  tratamentos Tratamento[] 
+  nome        String
+  especie     String
+  raca String
+  genero String
+  idade_estimada Int
+  tratamento Tratamento[]
+  idResgate Int
+  resgate Resgate @relation(fields: [idResgate],references: [id])
 }
 
 model Voluntario {
   id          Int          @id @default(autoincrement())
-  nome        String?
-  cpf         String?       @unique
-  telefone    String?
+  nome        String
+  cpf         String     @unique
+  telefone    String
+
+  resgate Resgate[]
   tratamentos Tratamento[]
+  registro RegistroPonto[]
+
+  idEscala Int
+  escala EscalaHorario @relation(fields: [idEscala], references: [id])
 }
 
 model Medicamento {
@@ -36,32 +45,59 @@ model Medicamento {
   nome        String
   descricao   String?
   tratamentos Tratamento[] 
+
+  idDoador Int
+  doador Doador @relation(fields: [idDoador], references: [id])
 }
 
 model Tratamento {
   id          Int          @id @default(autoincrement())
   data_hora   DateTime
+
   animal_id   Int
-  voluntario_id Int
   animal      Animal       @relation(fields: [animal_id], references: [id])
-  voluntario  Voluntario   @relation(fields: [voluntario_id], references: [id])
+
+  idVoluntario Int
+  voluntario Voluntario @relation(fields: [idVoluntario], references: [id])
+
   medicamentos Medicamento[] 
 }
 
 model Resgate {
   id          Int          @id @default(autoincrement())
-  data_hora   DateTime?
-  local       String?
-  descricao   String?
+  data_hora   DateTime
+  local       String
+  descricao   String
+  animal Animal[]
+  voluntario Voluntario[]
 }
 
 model Pretendente {
   id          Int          @id @default(autoincrement())
   contato String
   nome String
+  adocao Adocao?
 }
 
 model Adocao {
   id          Int          @id @default(autoincrement())
   data_hora DateTime
+  idPretendente Int @unique
+  pretendente Pretendente @relation(fields: [idPretendente], references: [id])
+}
+
+model EscalaHorario{
+  id Int @id @default(autoincrement())
+  dataInit DateTime
+  dataFim DateTime
+  horarioIni DateTime
+  horarioFim DateTime
+
+  voluntario Voluntario[]
+}
+
+model RegistroPonto{
+  id Int @id @default(autoincrement())
+  idVoluntario Int
+  voluntario Voluntario @relation(fields: [idVoluntario], references: [id])
 }

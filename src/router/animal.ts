@@ -1,9 +1,9 @@
-import { handleAddAnimal, handleGetAllAnimals } from "@controllers/animal";
+import * as AnimalController from "../controllers/animal";
 import { Router } from "express";
 
 const animalRouter = Router();
 
-animalRouter.get("/", handleGetAllAnimals);
-animalRouter.post("/", handleAddAnimal);
+animalRouter.get("/", AnimalController.handleGetAllAnimals);
+// animalRouter.post("/", AnimalController.handleAddAnimal);
 
 export default animalRouter;

@@ -1,8 +1,11 @@
 import { prisma } from "@/utils/prismaClient";
+import { Http } from "@types";
 import { Request, Response } from "express";
 
 export async function handleGetAllDoador(req: Request, res: Response) {
-  const doadores = await prisma.doador.findMany();
+  const doadores = await prisma.doador.findMany({
+    include: { medicamento: true },
+  });
   res.json(doadores);
 }
 
@@ -14,5 +17,5 @@ export async function handleAddDoador(req: Request, res: Response) {
       nome,
     },
   });
-  res.json(newDoador);
+  res.status(Http.CREATED).send(newDoador);
 }

@@ -1,9 +1,9 @@
-import { handleAddDoador, handleGetAllDoador } from "@controllers/doador";
+import * as DoadorController from "@controllers/doador";
 import { Router } from "express";
 
 const doadorRouter = Router();
 
-doadorRouter.get("/", handleGetAllDoador);
-doadorRouter.post("/", handleAddDoador);
+doadorRouter.get("/", DoadorController.handleGetAllDoador);
+doadorRouter.post("/", DoadorController.handleAddDoador);
 
 export default doadorRouter;
