@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "strict": true,
+    "target": "ESNext",
+    "module": "CommonJS",
+    "outDir": "dist",
+    "baseUrl": ".",
+    "paths": {
+      "@types": ["src/@types/index"],
+      "@schemas/*": ["src/schemas/*"],
+      "@controllers/*": ["src/controllers/*"],
+      "@lib/*": ["src/lib/*"],
+      "@middlewares/*": ["src/middlewares/*"],
+      "@repositories/*": ["src/repositories/*"],
+      "@router/*": ["src/router/*"],
+      "@services/*": ["src/services/*"],
+      "@connections/*": ["src/connections/*"],
+      "@/*": ["src/*"]
+    }
+  },
+  "exclude": ["node_modules"],
+  "include": ["src"]
+}

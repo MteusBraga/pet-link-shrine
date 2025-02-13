@@ -1,0 +1,67 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Doador {
+  id    Int    @id @default(autoincrement())
+  nome  String?
+  email String? @unique
+}
+
+model Animal {
+  id          Int          @id @default(autoincrement())
+  nome        String?
+  especie     String?
+  raca String?
+  genero String?
+  idade_estimada Int?
+  tratamentos Tratamento[] 
+}
+
+model Voluntario {
+  id          Int          @id @default(autoincrement())
+  nome        String?
+  cpf         String?       @unique
+  telefone    String?
+  tratamentos Tratamento[]
+}
+
+model Medicamento {
+  id          Int          @id @default(autoincrement())
+  nome        String
+  descricao   String?
+  tratamentos Tratamento[] 
+}
+
+model Tratamento {
+  id          Int          @id @default(autoincrement())
+  data_hora   DateTime
+  animal_id   Int
+  voluntario_id Int
+  animal      Animal       @relation(fields: [animal_id], references: [id])
+  voluntario  Voluntario   @relation(fields: [voluntario_id], references: [id])
+  medicamentos Medicamento[] 
+}
+
+model Resgate {
+  id          Int          @id @default(autoincrement())
+  data_hora   DateTime?
+  local       String?
+  descricao   String?
+}
+
+model Pretendente {
+  id          Int          @id @default(autoincrement())
+  contato String
+  nome String
+}
+
+model Adocao {
+  id          Int          @id @default(autoincrement())
+  data_hora DateTime
+}
