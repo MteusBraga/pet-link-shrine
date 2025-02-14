@@ -32,7 +32,7 @@ detalhar as doações recebidas, especificando
 
 ## Tecnologias Utilizadas
 - Express (framework para API REST)
-- Postgres (banco de dados relacional)
+- SQLite (banco de dados relacional)
 - Jest (para testes)
 ---
 [Link para visualização do modelo entidade relacionamento](https://drive.google.com/file/d/1XzzgiO7trgbtjEJq4cqEU9-wR2k2MshB/view)
