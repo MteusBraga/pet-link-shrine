@@ -25,5 +25,6 @@ export async function handleAddResgate(req: Request, res: Response) {
       },
     },
   });
-  return res.status(Http.CREATED).send(resgate);
+  res.status(Http.CREATED).send(resgate);
+  return;
 }

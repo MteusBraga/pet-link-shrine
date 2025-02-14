@@ -18,6 +18,7 @@ export async function handleGetAllAnimals(req: Request, res: Response) {
 //       raca,
 //       idade_estimada,
 //       genero,
+
 //     },
 //   });
 //   res.status(Http.CREATED).send(newAnimal);

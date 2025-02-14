@@ -1,7 +1,7 @@
 import {
   handleAddVoluntario,
   handleGetAllVoluntario,
-} from "@controllers/voluntario";
+} from "../controllers/voluntario";
 import { Router } from "express";
 
 const voluntarioRouter = Router();

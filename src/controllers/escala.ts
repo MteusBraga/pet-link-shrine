@@ -2,7 +2,7 @@ import { Http } from "@types";
 import { prisma } from "../utils/prismaClient";
 import { Request, Response } from "express";
 
-export async function handleAddVoluntario(req: Request, res: Response) {
+export async function handleAddEscala(req: Request, res: Response) {
   const { dataFim, dataInit, horarioIni, horarioFim } = req.body;
   const newEscala = await prisma.escalaHorario.create({
     data: {

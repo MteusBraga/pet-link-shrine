@@ -1,5 +1,5 @@
-import { prisma } from "@/utils/prismaClient";
-import { Http } from "@types";
+import { prisma } from "../utils/prismaClient";
+import { Http } from "../@types";
 import { Request, Response } from "express";
 
 export async function handleGetAllDoador(req: Request, res: Response) {

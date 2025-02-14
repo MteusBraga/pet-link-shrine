@@ -24,6 +24,7 @@ model Animal {
   tratamento Tratamento[]
   idResgate Int
   resgate Resgate @relation(fields: [idResgate],references: [id])
+  adocao Adocao?
 }
 
 model Voluntario {
@@ -82,6 +83,10 @@ model Pretendente {
 model Adocao {
   id          Int          @id @default(autoincrement())
   data_hora DateTime
+
+  idAnimal Int @unique
+  animal Animal @relation(fields: [idAnimal], references: [id])
+  
   idPretendente Int @unique
   pretendente Pretendente @relation(fields: [idPretendente], references: [id])
 }
@@ -98,6 +103,7 @@ model EscalaHorario{
 
 model RegistroPonto{
   id Int @id @default(autoincrement())
+  dataHora DateTime
   idVoluntario Int
   voluntario Voluntario @relation(fields: [idVoluntario], references: [id])
 }

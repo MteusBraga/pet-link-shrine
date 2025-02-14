@@ -1,4 +1,4 @@
-import * as DoadorController from "@controllers/doador";
+import * as DoadorController from "../controllers/doador";
 import { Router } from "express";
 
 const doadorRouter = Router();
