@@ -88,28 +88,94 @@ detalhar as doações recebidas, especificando
 
 Cenário 1: Registro bem-sucedido de uma novo resgate
 
-| ID    | Descrição                                         | Passos                                                   | Dados de Entrada                                                                                                                                                                                                                                                                                                                                                                             | Resultado esperado                            |
-| ----- | ------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------- |
-| CT-01 | Registrar um novo Resgate                         | Enviar requisição POST para `/resgate` com dados válidos | `{ "data_hora": "2024-02-17T18:25:43.511Z", "local": "Centro CG", "descricao": "",  "animais": [{"nome": "Tom","especie": "Gato","raca": "Vira-lata","genero": "Macho","idade_estimada": 3},{"nome": "Frajola","especie": "Gato","raca": "Vira-lata","genero": "Macho","idade_estimada": 2},{"nome": "Brutus","especie": "Cão","raca": "Vira-lata","genero": "Macho","idade_estimada": 4}]}` | Resposta 201 Created e o ID do resgate        |
-| CT-02 | Verificar se o resgate foi salvo no banco         | Consultar banco após o cadastro                          | ID do resgate retornado na requisicao anterior                                                                                                                                                                                                                                                                                                                                               | Resgate encontrado no banco                   |
-| CT-03 | Retornar erro ao cadastrar um resgate sem local   | Enviar requisição POST sem o campo local                 | Mesma requisicao acima com exceção do local                                                                                                                                                                                                                                                                                                                                                  | Resposta 400 Bad Request com mensagem de erro |
-| CT-04 | Retornar erro ao enviar animal com idade negativa | Enviar requisicao POST com idade negativa                | Mesma requisicao porém com um animal com idade negativa                                                                                                                                                                                                                                                                                                                                      | 400 Bad Request com mensagem                  |
+| ID | Descrição | Passos | Dados de Entrada | Resultado esperado |
+| --- | --- | --- | --- | --- |
+| CT-01 | Registrar um novo Resgate | Enviar requisição POST para `/resgate` com dados válidos | `{ "data_hora": "2024-02-17T18:25:43.511Z", "local": "Centro CG", "descricao": "",  "animais": [{"nome": "Tom","especie": "Gato","raca": "Vira-lata","genero": "Macho","idade_estimada": 3},{"nome": "Frajola","especie": "Gato","raca": "Vira-lata","genero": "Macho","idade_estimada": 2},{"nome": "Brutus","especie": "Cão","raca": "Vira-lata","genero": "Macho","idade_estimada": 4}]}` | Resposta 201 Created e o ID do resgate |
+| CT-02 | Verificar se o resgate foi salvo no banco  | Consultar banco após o cadastro | ID do resgate retornado na requisicao anterior | Resgate encontrado no banco |
+| CT-03 | Retornar erro ao cadastrar um resgate sem local | Enviar requisição POST sem o campo local | Mesma requisicao acima com exceção do local | Resposta 400 Bad Request com mensagem de erro |
+| CT-04 | Retornar erro ao enviar animal com idade negativa | Enviar requisicao POST com idade negativa | Mesma requisicao porém com um animal com idade negativa | 400 Bad Request com mensagem |
 
-Cenário 2: Tentativa de cadastro com campos obrigatórios ausentes
+Cenário 2: Alterações, remoção e listagem dos resgates
 
-| CT-01 |
+| ID    | Descrição | Passos | Dados de Entrada | Resultado esperado |
+| --- | --- | --- | --- | --- |
+| CT-05 | Alterar um resgate | Enviar requisicao PATCH para /resgates com o ID e os campos alterados | objeto json | resposta 201 Created e o ID do resgate |
+| CT-06 | Remover um resgate | Enviar requisicao DELETE para /resgates com o ID do resgate | objeto json | Resposta 204 No Content |
+| CT-07 | Alterar um resgate sem um id válido |  Enviar requisicao PATCH para /resgates com ID inválido | objeto json | Resposta 400 Bad Request |
+| CT-08 | Listar todos os resgates | Enviar requisicao GET para /resgates | sem dados de entrada | Array com os resgates e resposta 200 Ok |
 
-Cenário 2: Tentativa de cadastro com campos obrigatórios ausentes
-Cenário 3: Registro bem-sucedido de adoção, vinculando um animal disponível a um pretendente válido
-Cenário 4: Tentativa de adoção de um animal já adotado
-Cenário 5: Registro bem-sucedido de uma nova doação de ração
-Cenário 6: Tentativa de registrar consumo de um item não disponível no estoque
-Cadastro de Resgates
-Cenário 7: Registro bem-sucedido de um novo resgate
-Cenário 8: Tentativa de cadastrar um resgate sem fornecer a localidade
-Controle do fluxo de trabalho dos voluntários
-Cenário 9: Registro bem-sucedido de escala e ponto de trabalho
-Cenário 10: Tentativa de registrar um ponto de entrada futuro ao um pont ode saída
+Cenário 3: Registro Bem-Sucedido de Adoção, Vinculando um Animal Disponível a um Pretendente Válido
+
+| ID    | Descrição | Passos | Dados de Entrada | Resultado esperado |
+| --- | --- | --- | --- | --- |
+| CT-09 | Registrar uma adoção | Enviar requisição POST para `/adocao` com os campos obrigatórios | `{ "animalId": "123", "pretendenteId": "456", "dataAdocao": "2024-02-17" }` | Resposta 201 Created e ID da adoção |
+| CT-10 | Verificar se a adoção foi salva no banco | Consultar banco após o cadastro | ID da adoção retornado na requisição anterior | Adoção encontrada no banco |
+| CT-11 | Retornar erro ao cadastrar uma adocao sem um pretendente válido | POST para /adocao com id inválido | `{ "animalId": "123", "pretendenteId": "", "dataAdocao": "2024-02-17" }` | Resposta 400 Bad Request |
+| CT-12 |  Retornar erro ao cadastrar uma adocao sem um animal válido | POST para /adocao com id inválido | `{ "animalId": "", "pretendenteId": "456", "dataAdocao": "2024-02-17" }` | Resposta 400 Bad Request |
+
+Cenário 4: Alterações, Remoção e Listagem das Adoções
+
+| ID    | Descrição | Passos | Dados de Entrada | Resultado esperado |
+| --- | --- | --- | --- | --- |
+| CT-13 | Alterar uma adoção | Enviar requisição PATCH para `/adocao/:id` com dados atualizados | `{ "dataAdocao": "2024-02-18" }` | Resposta 200 OK |
+| CT-14 | Remover uma adoção | Enviar requisição DELETE para `/adocao/:id` | `{ "id": "789" }` | Resposta 204 No Content |
+| CT-15 | Listar todas as adoções | Enviar requisição GET para `/adocao` | Sem dados de entrada | Array de adoções e resposta 200 OK |
+| CT-16 | Retornar erro ao alterar uma adocao inválida | Enviar requisição PATCH para `/adocao/:id` com id inválido | `{ "dataAdocao": "2024-02-18" }` | Resposta 400 Bad Request |
+
+Cenário 5: Registro Bem-Sucedido de um Novo Item no Estoque
+
+| ID    | Descrição | Passos | Dados de Entrada | Resultado esperado |
+| --- | --- | --- | --- | --- |
+| CT-17 | Registrar um novo item no estoque | Enviar requisição POST para `/estoque` | `{ "doadorId": "453", "nome": "Ração", "quantidade": 10, "tipo": "Alimento" }` | Resposta 201 Created e ID do item |
+| CT-18 | Verificar se o item foi salvo no banco | Consultar banco | ID do item | Item encontrado no estoque |
+| CT-19 | Retornar erro ao cadastrar um item sem informar o tipo | POST para /estoque | `{ "doadorId": "453","nome": "Ração", "quantidade": 10, "tipo": "" }` | Resposta 400 Bad Request |
+| CT-20 | Retornar erro ao cadastrar item sem doador valido | POST para /estoque | `{ "doadorId": "","nome": "Ração", "quantidade": 10, "tipo": "Alimento" }` | Resposta 400 Bad Request |
+
+Cenário 6: Alterações, Remoção e Listagem de Itens no Estoque
+
+| ID    | Descrição | Passos | Dados de Entrada | Resultado esperado |
+| --- | --- | --- | --- | --- |
+| CT-21 | Alterar um item no estoque | Enviar requisição PATCH para `/estoque/:id` | `{ "quantidade": 20 }` | Resposta 200 OK |
+| CT-22 | Remover um item do estoque | Enviar requisição DELETE para `/estoque/:id` | `{ "id": "111" }` | Resposta 204 No Content |
+| CT-23 | Listar todos os itens do estoque | Enviar requisição GET para `/estoque` | Sem dados de entrada | Array de itens e resposta 200 OK |
+| CT-24 | Retornar erro ao alterar um item id invalido | Enviar requisição PATCH para `/estoque/:id` | `{ "quantidade": 20 }` | Resposta 400 Bad Request |
+
+Cenário 7: Registro Bem-Sucedido de um Novo Tratamento
+
+| ID    | Descrição | Passos | Dados de Entrada | Resultado esperado |
+| --- | --- | --- | --- | --- |
+| CT-25 | Registrar um novo tratamento | Enviar requisição POST para `/tratamentos` | `{ "animalId": "123", "medicamento": "Antibiótico", "data": "2024-02-18" }` | Resposta 201 Created e ID do tratamento |
+| CT-26 | Verificar se o tratamento foi salvo no banco | Consultar banco | ID | Tratamento | 
+| CT-27 | Retornar erro ao cadastrar tratamento sem informar data | `{ "voluntarioId":"231", "animalId": "123", "medicamento": "Antibiótico" }` | 400 Bad Request
+| CT-28 | Retornar erro ao cadastrar tratamento com id de animal invalido | `{ "voluntarioId":"231", "animalId": "", "medicamento": "Antibiótico", "data": "2024-02-18" }` | 400 Bad Request | 
+
+Cenário 8: Alterações, Remoção e Listagem de Tratamentos
+
+| ID    | Descrição | Passos | Dados de Entrada | Resultado esperado |
+| --- | --- | --- | --- | --- |
+| CT-29 | Alterar um tratamento | Enviar requisição PATCH para `/tratamentos/:id` | `{ "medicamento": "Anti-inflamatório" }` | Resposta 200 OK |
+| CT-30 | Remover um tratamento | Enviar requisição DELETE para `/tratamentos/:id` | `{ "id": "222" }` | Resposta 204 No Content |
+| CT-31 | Listar todos os tratamentos | Enviar requisição GET para `/tratamentos` | Sem dados de entrada | Array de tratamentos e resposta 200 OK |
+| CT-32 | Retornar erro ao alterar tratamento com ID inválido | Enviar requisição PATCH para `/tratamentos/:id` com ID inexistente | `{ "medicamento": "Anti-inflamatório" }` | Resposta 400 Bad Request |
+
+## Cenário 9: Registro Bem-Sucedido de Escala e Ponto de Trabalho
+
+| ID    | Descrição | Passos | Dados de Entrada | Resultado esperado |
+| --- | --- | --- | --- | --- |
+| CT-33 | Registrar uma escala de voluntário | Enviar requisição POST para `/voluntarios/escala` | `{ "voluntarioId": "101", "data": "2024-02-18", "turno": "Manhã" }` | Resposta 201 Created e ID da escala |
+| CT-34 | Registrar um ponto de entrada de voluntário | Enviar requisição POST para `/voluntarios/ponto` | `{ "voluntarioId": "101", "tipo": "entrada", "dataHora": "2024-02-18T08:00:00Z" }` | Resposta 201 Created e ID do ponto |
+| CT-35 | Registrar um ponto de saída de voluntário | Enviar requisição POST para `/voluntarios/ponto` | `{ "voluntarioId": "101", "tipo": "saida", "dataHora": "2024-02-18T12:00:00Z" }` | Resposta 201 Created e ID do ponto |
+| CT-36 | Tentar registrar um ponto de saída sem ter um ponto de entrada | Enviar requisição POST para `/voluntarios/ponto` | `{ "voluntarioId": "102", "tipo": "saida", "dataHora": "2024-02-18T12:00:00Z" }` | Resposta 400 Bad Request |
+
+## Cenário 10: Listagem de Entrada e Saída por Voluntário
+
+| ID    | Descrição | Passos | Dados de Entrada | Resultado esperado |
+| --- | --- | --- | --- | --- |
+| CT-37 | Listar entradas e saídas de um voluntário | Enviar requisição GET para `/voluntarios/horarios/:id` | `{ "voluntarioId": "101" }` | Array com os horários e resposta 200 OK |
+| CT-38 | Listar apenas entradas de um voluntário | Enviar requisição GET para `/voluntarios/horarios/:id?tipo=entrada` | `{ "voluntarioId": "101" }` | Array apenas com horários de entrada e resposta 200 OK |
+| CT-39 | Listar apenas saídas de um voluntário | Enviar requisição GET para `/voluntarios/horarios/:id?tipo=saida` | `{ "voluntarioId": "101" }` | Array apenas com horários de saída e resposta 200 OK |
+| CT-40 | Tentar listar horários de um voluntário inexistente | Enviar requisição GET para `/voluntarios/horarios/:id` | `{ "voluntarioId": "999" }` | Resposta 404 Not Found |
+
 
 ## Como rodar o projeto
 
