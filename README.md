@@ -63,7 +63,9 @@ detalhar as doações recebidas, especificando
 │   ├── app.ts             # Configuração do Express
 │   └── server.ts          # Arquivo de inicialização do servidor
 └── tests/                 # Diretório de testes automatizados
-    └── exemple.test.ts    # Arquivo de exemplo de teste unitário
+    └── cenario_01.test.ts # Arquivo de teste: Cada cenario contém 4 testes de unidade
+    └── [...]
+    └── cenario_10.test.ts 
 ```
 
 ## Cenários de Testes para os principais Casos de Uso
