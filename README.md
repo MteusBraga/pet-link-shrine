@@ -66,6 +66,51 @@ detalhar as doações recebidas, especificando
     └── exemple.test.ts    # Arquivo de exemplo de teste unitário
 ```
 
+## Cenários de Testes para os principais Casos de Uso
+
+1. Cadastro de Resgates
+   - Cenário 1: Registro bem-sucedido de uma novo resgate
+   - Cenário 2: Alterações, remoção e listagem dos resgates
+2. Registro de Adoções
+   - Cenário 3: Registro bem-sucedido de adoção, vinculando um animal disponível a um pretendente válido
+   - Cenário 4: Alterações, remoção e listagem das adoções
+3. Gerenciamento de Estoque
+   - Cenário 5: Registro bem-sucedido de um novo item no estoque
+   - Cenário 6: Alterações, remoção e listagem de itens no estoque
+4. Registro de Tratamentos
+   - Cenário 7: Registro bem-sucedido de um novo tratamento
+   - Cenário 8: Alterações, remoção e listagem de tratamentos
+5. Controle do fluxo de trabalho dos voluntários
+   - Cenário 9: Registro bem-sucedido de escala e ponto de trabalho
+   - Cenário 10: Listagem de entrada e saída por volntário
+
+## Definição de Casos de Teste
+
+Cenário 1: Registro bem-sucedido de uma novo resgate
+
+| ID    | Descrição                                         | Passos                                                   | Dados de Entrada                                                                                                                                                                                                                                                                                                                                                                             | Resultado esperado                            |
+| ----- | ------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------- |
+| CT-01 | Registrar um novo Resgate                         | Enviar requisição POST para `/resgate` com dados válidos | `{ "data_hora": "2024-02-17T18:25:43.511Z", "local": "Centro CG", "descricao": "",  "animais": [{"nome": "Tom","especie": "Gato","raca": "Vira-lata","genero": "Macho","idade_estimada": 3},{"nome": "Frajola","especie": "Gato","raca": "Vira-lata","genero": "Macho","idade_estimada": 2},{"nome": "Brutus","especie": "Cão","raca": "Vira-lata","genero": "Macho","idade_estimada": 4}]}` | Resposta 201 Created e o ID do resgate        |
+| CT-02 | Verificar se o resgate foi salvo no banco         | Consultar banco após o cadastro                          | ID do resgate retornado na requisicao anterior                                                                                                                                                                                                                                                                                                                                               | Resgate encontrado no banco                   |
+| CT-03 | Retornar erro ao cadastrar um resgate sem local   | Enviar requisição POST sem o campo local                 | Mesma requisicao acima com exceção do local                                                                                                                                                                                                                                                                                                                                                  | Resposta 400 Bad Request com mensagem de erro |
+| CT-04 | Retornar erro ao enviar animal com idade negativa | Enviar requisicao POST com idade negativa                | Mesma requisicao porém com um animal com idade negativa                                                                                                                                                                                                                                                                                                                                      | 400 Bad Request com mensagem                  |
+
+Cenário 2: Tentativa de cadastro com campos obrigatórios ausentes
+
+| CT-01 |
+
+Cenário 2: Tentativa de cadastro com campos obrigatórios ausentes
+Cenário 3: Registro bem-sucedido de adoção, vinculando um animal disponível a um pretendente válido
+Cenário 4: Tentativa de adoção de um animal já adotado
+Cenário 5: Registro bem-sucedido de uma nova doação de ração
+Cenário 6: Tentativa de registrar consumo de um item não disponível no estoque
+Cadastro de Resgates
+Cenário 7: Registro bem-sucedido de um novo resgate
+Cenário 8: Tentativa de cadastrar um resgate sem fornecer a localidade
+Controle do fluxo de trabalho dos voluntários
+Cenário 9: Registro bem-sucedido de escala e ponto de trabalho
+Cenário 10: Tentativa de registrar um ponto de entrada futuro ao um pont ode saída
+
 ## Como rodar o projeto
 
 Requisitos:

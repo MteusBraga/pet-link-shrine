@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { prisma } from "../utils/prismaClient";
-import { Http } from "@types";
+import { Http } from "../@types";
 
 export async function handleGetAllResgates(res: Response) {
   const resgates = prisma.resgate.findMany({
