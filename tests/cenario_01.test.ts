@@ -1,4 +1,4 @@
-import { request } from "supertest";
+import request from "supertest";
 import { prisma } from "../src/utils/prismaClient";
 import app from "../src/app";
 
