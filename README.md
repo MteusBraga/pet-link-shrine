@@ -215,5 +215,5 @@ npm run dev
 Rodar testes (ainda não implementado)
 
 ```
-jest tests
+npx jest
 ```
